@@ -1,4 +1,10 @@
+/* eslint-disable react/prop-types */
+// eslint-disable-next-line no-unused-vars
+import React, { useState } from 'react'
 import styled from "styled-components";
+
+import CreateCabinForm from "./CreateCabinForm";
+import { useDeleteCabin } from "./useDeleteCabin";
 import {formatCurrency} from "../../utils/helpers"
 
 const TableRow = styled.div`
@@ -39,27 +45,13 @@ const Discount = styled.div`
   font-weight: 500;
   color: var(--color-green-700);
 `;
-import React, { useState } from 'react'
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCabin } from "../../services/apiCabins";
-import toast from "react-hot-toast";
-import CreateCabinForm from "./CreateCabinForm";
+
 
 export default function CabinRow({cabin}) {
   const [showForm, setShowForm] = useState(false);
+  const {isDeleting, deleteCabin} = useDeleteCabin();
   const {id:cabinID ,name, maxCapacity, regularPrice, discount, image} = cabin;
 
-  const queryClient = useQueryClient();
-  const {isLoading: isDeleting, mutate} =  useMutation({
-    mutationFn: deleteCabin,
-    onSuccess: () => {
-      toast.success("Cabin successfully deleted")
-      queryClient.invalidateQueries({
-        queryKey: ['cabins']
-      })
-    },
-    onError: (err)=> toast.error(err.message)
-  })
   return (
     <>
     <TableRow role="table">
@@ -67,10 +59,10 @@ export default function CabinRow({cabin}) {
       <Cabin>{name}</Cabin>
       <div>Fits up to {maxCapacity} guests</div>
       <Price>{formatCurrency(regularPrice)}</Price>
-      <Discount>{formatCurrency(discount)}</Discount>
+      {discount ? (<Discount>{formatCurrency(discount)}</Discount>) : (<span>&mdash;</span>)}
       <div>
       <button onClick={() => setShowForm((show) => !show)}> Edit</button>
-      <button disabled={isDeleting} onClick={()=>mutate(cabinID)}>Delete</button>
+      <button disabled={isDeleting} onClick={()=>deleteCabin(cabinID)}>Delete</button>
       </div>
     </TableRow>
     {showForm && <CreateCabinForm cabinToEdit={cabin}/> }
