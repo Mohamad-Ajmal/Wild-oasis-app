@@ -80,7 +80,7 @@ export default function MainNav() {
         <li>
           <StyledNaveLink to="/settings">
             <HiOutlineCog6Tooth />
-              <span>Bookings</span>
+              <span>Settings</span>
           </StyledNaveLink>
         </li>
       </NavList>
