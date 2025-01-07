@@ -48,3 +48,23 @@ const Button = styled.button`
     color: var(--color-grey-500);
   }
 `;
+
+// eslint-disable-next-line no-unused-vars
+import React from 'react'
+import { HiXMark } from "react-icons/hi2";
+import { createPortal } from "react-dom";
+
+export default function Modal({children, onClose}) {
+  return createPortal(
+    <Overlay>
+      <StyledModal>
+        <Button onClick={onClose}>
+          <HiXMark />
+        </Button>
+        <div>{children}</div>
+      </StyledModal>
+    </Overlay>,
+    document.body
+  )
+}
+
