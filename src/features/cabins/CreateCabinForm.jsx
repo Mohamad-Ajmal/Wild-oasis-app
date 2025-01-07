@@ -11,7 +11,7 @@ import { useForm } from "react-hook-form";
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {}}) {
+function CreateCabinForm({ cabinToEdit = {}, onCloseModel}) {
   const {isCreating, createCabin} = useCreateCabin();
   const {isEditing, editCabin} = useEditCabin();
   const {id:editId, ...editValues } = cabinToEdit;
@@ -35,13 +35,15 @@ function CreateCabinForm({ cabinToEdit = {}}) {
     if(isEditSession)
       editCabin({ newCabinData: {...data, image }, id: editId },{
         onSuccess: (data) => {
-          reset()
+          reset();
+          onCloseModel?.();
         },
     });
     else
     createCabin({...data, image:image},{
       onSuccess: (data) => {
-        reset()
+        reset();
+        onCloseModel?.();
       },
   });
   }
@@ -51,7 +53,7 @@ function CreateCabinForm({ cabinToEdit = {}}) {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form onSubmit={handleSubmit(onSubmit, onError)} type={onCloseModel ? "model" : "regular"}>
     
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input type="text" id="name" disabled={isWorking} {...register("name" ,{required: "This filed is required"})} />
@@ -83,7 +85,7 @@ function CreateCabinForm({ cabinToEdit = {}}) {
 
       <FormRow>
         {/* type is an HTML attribute! */}
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" onClick={() => onCloseModel?.()}>
           Cancel
         </Button>
         <Button disabled={isWorking}>{isEditSession ? "Edit Cabin" : "Create new cabin"}</Button>
