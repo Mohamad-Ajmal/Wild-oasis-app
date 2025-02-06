@@ -1,4 +1,5 @@
-import Filter from 'ui/Filter';
+import React from 'react';
+import Filter from '../../ui/Filter';
 
 function DashboardFilter() {
   return (
