@@ -4,7 +4,7 @@ import Spinner from './Spinner';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 
-const fullPage = styled.div `
+const FullPage = styled.div `
     height: 100vh;
     background-color: var(--color-grey-50);
     display: flex;
@@ -27,9 +27,9 @@ export default function ProtectedRoute({children}) {
      // 3. while loading, show a Spinner
      if(isLoading) 
         return (
-            <fullPage>
+            <FullPage>
                 <Spinner />
-            </fullPage>
+            </FullPage>
         );
         
     // 4. if there IS a user, render the app
