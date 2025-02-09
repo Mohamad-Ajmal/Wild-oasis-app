@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import React from "react";
 const StyledStat = styled.div`
   /* Box */
   background-color: var(--color-grey-0);
