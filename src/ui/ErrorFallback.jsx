@@ -29,3 +29,24 @@ const Box = styled.div`
     color: var(--color-grey-500);
   }
 `;
+import React from 'react'
+import Heading from "./Heading";
+import GlobalStyles from "../styles/GlobalStyles";
+import Button from "./Button";
+
+export default function ErrorFallback({error, resetErrorBoundary}) {
+  return (
+    <>
+    <GlobalStyles />
+    <StyledErrorFallback>
+      <Box>
+        <Heading as="h1">Something went Wrong 🧐</Heading>
+        <p>{error.message}</p>
+        <Button size="large" onClick={resetErrorBoundary}>Try again</Button>
+      </Box>
+    </StyledErrorFallback>
+    </>
+    
+  )
+}
+
